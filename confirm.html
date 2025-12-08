@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אישור השתתפות - האקתון הממציא הצעיר 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f6f8ff 0%, #e9ecff 100%);
+            direction: rtl;
+            padding: 20px;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.4em;
+            margin-bottom: 20px;
+            color: #1a365d;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-details {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #2563eb;
+            font-weight: 600;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        .detail-row {
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #1f2937;
+            font-size: 1.1em;
+            padding-right: 15px;
+        }
+
+        .students-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .student-item {
+            background-color: rgba(243, 244, 246, 0.7);
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 1em;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .confirmation-form {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #4b5563;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .signature-pad-container {
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            background-color: white;
+        }
+
+        #signature-pad {
+            width: 100%;
+            height: 200px;
+        }
+
+        .signature-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #4b5563;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+
+        .commitment-text {
+            background-color: rgba(243, 244, 246, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.6;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .success-message {
+            display: none;
+            background-color: #10b981;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button {
+            background: linear-gradient(45deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 1em;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(45deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .section-title {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>אישור השתתפות - האקתון הממציא הצעיר 2025</h1>
+        </header>
+
+        <div class="team-details">
+            <h2 class="section-title">פרטי הקבוצה</h2>
+            <div class="detail-row">
+                <div class="detail-label">שם הקבוצה:</div>
+                <div class="detail-value" id="teamName"></div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">בית ספר:</div>
+                <div class="detail-value" id="schoolName"></div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">עיר:</div>
+                <div class="detail-value" id="city"></div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">מורה מנחה:</div>
+                <div class="detail-value" id="teacher"></div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">משתתפים:</div>
+                <div class="students-list" id="studentsList"></div>
+            </div>
+        </div>
+
+        <div class="confirmation-form">
+            <h2 class="section-title">אישור השתתפות</h2>
+            
+            <div class="form-group">
+                <label for="confirmerName">שם מלא של המאשר/ת:</label>
+                <input type="text" id="confirmerName" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmerID">מספר ת.ז של המאשר/ת:</label>
+                <input type="text" id="confirmerID" maxlength="9" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signature-pad">חתימה:</label>
+                <div class="signature-pad-container">
+                    <canvas id="signature-pad"></canvas>
+                </div>
+                <div class="signature-actions">
+                    <button class="btn btn-secondary" id="clear-signature">נקה חתימה</button>
+                </div>
+            </div>
+
+            <div class="commitment-text">
+                באישור זה אני מתחייב/ת שהקבוצה תגיע לאירוע האקתון שיתקיים ביום חמישי ה 5.6.2025 החל מהשעה 09:00
+            </div>
+
+            <button class="submit-btn" id="submit-form">אישור השתתפות</button>
+            
+            <div class="success-message" id="success-message">
+                ההשתתפות אושרה בהצלחה! תודה.
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="teams.html" class="back-button">חזרה לרשימת הקבוצות</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // קבלת הנתונים מ-localStorage
+            const teamData = JSON.parse(localStorage.getItem('confirmTeamData'));
+            
+            if (!teamData) {
+                // אם אין נתונים, חזרה לעמוד הראשי
+                window.location.href = 'teams.html';
+                return;
+            }
+            
+            // הצגת פרטי הקבוצה
+            document.getElementById('teamName').textContent = teamData.teamName;
+            document.getElementById('schoolName').textContent = teamData.schoolName;
+            document.getElementById('city').textContent = teamData.city;
+            document.getElementById('teacher').textContent = teamData.teacher;
+            
+            // הצגת רשימת המשתתפים
+            const studentsList = document.getElementById('studentsList');
+            teamData.students.forEach(student => {
+                const studentItem = document.createElement('div');
+                studentItem.className = 'student-item';
+                studentItem.textContent = student;
+                studentsList.appendChild(studentItem);
+            });
+            
+            // יצירת משטח חתימה
+            const canvas = document.getElementById('signature-pad');
+            const signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgba(255, 255, 255, 0.0)',
+                penColor: 'rgb(0, 0, 0)'
+            });
+            
+            // התאמת גודל הקנבס לרזולוציה
+            function resizeCanvas() {
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+                signaturePad.clear(); // ניקוי לאחר שינוי גודל
+            }
+            
+            window.addEventListener("resize", resizeCanvas);
+            resizeCanvas();
+            
+            // כפתור ניקוי חתימה
+            document.getElementById('clear-signature').addEventListener('click', function() {
+                signaturePad.clear();
+            });
+            
+            // כפתור שליחת הטופס
+            document.getElementById('submit-form').addEventListener('click', function() {
+                const confirmerName = document.getElementById('confirmerName').value.trim();
+                const confirmerID = document.getElementById('confirmerID').value.trim();
+                
+                if (!confirmerName) {
+                    alert('נא להזין את שם המאשר');
+                    return;
+                }
+                
+                if (!confirmerID || confirmerID.length < 9) {
+                    alert('נא להזין מספר ת.ז תקין (9 ספרות)');
+                    return;
+                }
+                
+                if (signaturePad.isEmpty()) {
+                    alert('נא לחתום לפני אישור');
+                    return;
+                }
+                
+                // שמירת הנתונים לשליחה
+                const formData = {
+                    teamName: teamData.teamName,
+                    schoolName: teamData.schoolName,
+                    city: teamData.city,
+                    teacher: teamData.teacher,
+                    students: teamData.students,
+                    confirmerName: confirmerName,
+                    confirmerID: confirmerID,
+                    signatureData: signaturePad.toDataURL()
+                };
+                
+                console.log('נתוני האישור:', formData);
+                
+                // שליחת נתונים לגוגל פורמס
+                submitToGoogleForm(formData);
+            });
+
+            // הפונקציה לשליחת הנתונים לגוגל פורמס
+            function submitToGoogleForm(formData) {
+                // יצירת אובייקט FormData לשליחה
+                const googleFormData = new FormData();
+                
+                // הוספת כל הנתונים לטופס
+                // שם הקבוצה - entry.1613542436
+                googleFormData.append('entry.1613542436', formData.teamName);
+                
+                // בית ספר - entry.1054459378
+                googleFormData.append('entry.1054459378', formData.schoolName);
+                
+                // עיר - entry.410638885
+                googleFormData.append('entry.410638885', formData.city);
+                
+                // מורה מנחה - entry.331043845
+                googleFormData.append('entry.331043845', formData.teacher);
+                
+                // משתתפים - מאחדים את המערך למחרוזת אחת עם קווים חדשים - entry.139272660
+                googleFormData.append('entry.139272660', formData.students.join('\n'));
+                
+                // שם מלא של המאשר/ת - entry.40525838
+                googleFormData.append('entry.40525838', formData.confirmerName);
+                
+                // מספר ת.ז של המאשר/ת - entry.1159430434
+                googleFormData.append('entry.1159430434', formData.confirmerID);
+                
+                // URL הטופס
+                const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScB-cC4zvUxpiG0a2P1XfKVni3VDGDNBYxQqZ_ulUOuZXmYXg/formResponse';
+                
+                // יצירת iframe מוסתר לשליחת הטופס (פתרון CORS)
+                const iframe = document.createElement('iframe');
+                iframe.name = 'hidden_iframe';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                
+                // יצירת טופס HTML ושליחתו בתוך iframe
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = googleFormUrl;
+                form.target = 'hidden_iframe';
+                
+                // הוספת כל השדות לטופס
+                for (const [key, value] of googleFormData.entries()) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    form.appendChild(input);
+                }
+                
+                // הוספת שדות נוספים שגוגל פורמס מצפה להם
+                const fbzxInput = document.createElement('input');
+                fbzxInput.type = 'hidden';
+                fbzxInput.name = 'fbzx';
+                fbzxInput.value = '2920095727041480043';
+                form.appendChild(fbzxInput);
+                
+                document.body.appendChild(form);
+                
+                // פונקציה להצגת הודעה ולהסרת הטופס והאיפריים לאחר שהטופס נשלח
+                iframe.onload = function() {
+                    // הצגת הודעת הצלחה
+                    document.getElementById('success-message').style.display = 'block';
+                    
+                    // התעלמות מההודעה לאחר 3 שניות והחזרה לעמוד הראשי
+                    setTimeout(function() {
+                        // הסרת הטופס והאיפריים
+                        document.body.removeChild(form);
+                        document.body.removeChild(iframe);
+                        
+                        // החזרה לדף הראשי לאחר 3 שניות
+                        setTimeout(function() {
+                            window.location.href = 'teams.html';
+                        }, 3000);
+                    }, 500);
+                };
+                
+                // שליחת הטופס
+                form.submit();
+            }
+        });
+    </script>
+</body>
+</html>

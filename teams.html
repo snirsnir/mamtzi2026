@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הקבוצות של האקתון הממציא הצעיר 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f6f8ff 0%, #e9ecff 100%);
+            direction: rtl;
+            padding: 20px;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            color: #1a365d;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .school-section {
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .school-header {
+            background: linear-gradient(45deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 15px 25px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .teams-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 25px;
+            justify-content: center;
+        }
+
+        .team-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            width: 280px;
+            min-height: 350px;
+            padding: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .team-card.approved {
+            border: 3px solid #10b981;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .team-header {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+            padding: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none"><path d="M0 50C0 22.3858 22.3858 0 50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50Z" fill="white" fill-opacity="0.05"/><path d="M0 50C0 22.3858 22.3858 0 50 0C77.6142 0 100 22.3858 100 50C100 77.6142 77.6142 100 50 100C22.3858 100 0 77.6142 0 50Z" stroke="white" stroke-opacity="0.1"/></svg>');
+            background-size: 120px;
+            background-repeat: no-repeat;
+            background-position: -20px -20px;
+            opacity: 0.3;
+        }
+
+        .team-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .team-info {
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 2px;
+            font-size: 0.9em;
+        }
+
+        .info-value {
+            color: #1f2937;
+            font-size: 1em;
+            padding-right: 10px;
+        }
+
+        .students-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .student-item {
+            background-color: rgba(243, 244, 246, 0.7);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .blurred {
+            filter: blur(4px);
+            user-select: none;
+        }
+
+        .teacher-info {
+            margin-top: 10px;
+            background-color: rgba(243, 244, 246, 0.7);
+            padding: 10px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .school-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #4b5563;
+            padding: 8px 0;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* כפתור אישור קבוצה */
+        .confirm-button {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .confirm-button:hover {
+            background: linear-gradient(45deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .approved-message {
+            color: #3b82f6;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .teams-container {
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .team-card {
+                width: 100%;
+                min-height: auto;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .school-header {
+                font-size: 1.5em;
+                padding: 12px 20px;
+            }
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            border: 2px solid #d1d5db;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-family: 'Fredoka', sans-serif;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .filter-tabs {
+            display: none;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            border-radius: 999px;
+            background-color: white;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover {
+            background-color: #f3f4f6;
+        }
+
+        .filter-tab.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+            color: #6b7280;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #2563eb;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top svg {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>הקבוצות של האקתון הממציא הצעיר 2026</h1>
+            <p style="font-size: 1.2em; color: #2563eb; margin-top: 15px; font-weight: 500;">רשימת הקבוצות תעודכן בהמשך</p>
+        </header>
+
+<div style="background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 10px; padding: 20px; margin-bottom: 30px; text-align: center;">
+    <h2 style="color: #b45309; margin-bottom: 10px; font-size: 1.4em;">דוגמא לכרטיסיית קבוצה</h2>
+    <p style="line-height: 1.6; font-size: 1.05em;">להלן דוגמא כיצד תיראה כרטיסיית הקבוצה שלכם ברשימה הסופית</p>
+</div>
+        <div id="schoolsContainer">
+            <!-- תוכן בתי הספר והקבוצות יוכנס כאן באמצעות JavaScript -->
+        </div>
+    </div>
+
+    <div class="back-to-top" id="backToTop">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </div>
+
+    <script>
+        // דוגמא לקבוצה - הרשימה המלאה תעודכן בהמשך
+        const teamsData = [
+    {
+        schoolName: "בית ספר <span class='blurred'>לדוגמה</span>",
+        teams: [
+            {
+                teamName: "ארבעת המופלאים",
+                students: [
+                    "ינאי <span class='blurred'>לביא בצרי</span>",
+                    "אריאל <span class='blurred'>חן</span>",
+                    "עמרי <span class='blurred'>פישר</span>",
+                    "איתי <span class='blurred'>שטיבי</span>"
+                ],
+                city: "חדרה",
+                teacher: "המורה <span class='blurred'>המנחה</span>"
+            }
+        ]
+    }
+];
+
+
+
+        // מאגר נתונים למצב האישור של הקבוצות
+        const teamApprovalStatus = {};
+
+        // רשימת הקבוצות המאושרות מראש (הערך שלהן יהיה 1)
+const preApprovedTeams = [
+    // דוגמה
+    "בית ספר <span class='blurred'>לדוגמה</span>_ארבעת המופלאים"
+];
+
+        // פונקציה לאתחול מצב האישור של הקבוצות
+        function initializeTeamApprovalStatus() {
+            teamsData.forEach(school => {
+                school.teams.forEach(team => {
+                    const teamId = `${school.schoolName}_${team.teamName}`;
+                    // בדיקה אם הקבוצה נמצאת ברשימת המאושרות מראש
+                    teamApprovalStatus[teamId] = preApprovedTeams.includes(teamId) ? 1 : 0;
+                });
+            });
+        }
+
+        // פונקציה לטעינת מצב האישור מ-localStorage (אם קיים)
+        function loadApprovalStatus() {
+            const savedStatus = localStorage.getItem('teamApprovalStatus');
+            if (savedStatus) {
+                const parsed = JSON.parse(savedStatus);
+                Object.keys(parsed).forEach(key => {
+                    teamApprovalStatus[key] = parsed[key];
+                });
+            }
+        }
+
+        // פונקציה ליצירת קטע HTML עבור קבוצה
+        function createTeamCard(team) {
+            const teamId = `${team.schoolName}_${team.teamName}`;
+            const isApproved = teamApprovalStatus[teamId] === 1;
+
+            // מגדירים את הקלאס של הכרטיס בהתאם למצב האישור
+            const cardClass = isApproved ? 'team-card approved' : 'team-card';
+
+            // אם הקבוצה מאושרת, הצג הודעת אישור במקום כפתור האישור
+            const buttonOrMessage = isApproved ?
+                '<div class="approved-message">הקבוצה אושרה בהצלחה</div>' :
+                `<button class="confirm-button" data-team-name="${team.teamName}">בקשה לאישור קבוצה</button>`;
+
+            return `
+                <div class="${cardClass}" data-team-name="${team.teamName}" data-school="${team.schoolName}" data-city="${team.city}" data-team-id="${teamId}">
+                    <div class="team-header">${team.teamName}</div>
+                    <div class="team-content">
+                        <div class="team-info">
+                            <div class="info-label">שם הקבוצה:</div>
+                            <div class="info-value">${team.teamName}</div>
+                        </div>
+                        <div class="students-list">
+                            ${team.students.map(student => `<div class="student-item">${student}</div>`).join('')}
+                        </div>
+                        <div class="teacher-info">
+                            <div class="info-label">מורה מנחה:</div>
+                            <div class="info-value">${team.teacher}</div>
+                        </div>
+                        <div class="school-info">
+                            <span>${team.schoolName}</span>
+                            <span>${team.city}</span>
+                        </div>
+                        ${buttonOrMessage}
+                    </div>
+                </div>
+            `;
+        }
+
+        // פונקציה ליצירת קטע HTML עבור בית ספר וקבוצותיו
+        function createSchoolSection(school) {
+            return `
+                <div class="school-section" id="school-${school.schoolName.replace(/\s+/g, '-')}">
+                    <div class="school-header">${school.schoolName}</div>
+                    <div class="teams-container">
+                        ${school.teams.map(team => {
+                            team.schoolName = school.schoolName;
+                            return createTeamCard(team);
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // פונקציה לייצור כל המידע ולהכנסתו לעמוד
+        function renderTeams(data) {
+            const container = document.getElementById('schoolsContainer');
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = '<div class="no-results">לא נמצאו תוצאות לחיפוש. נסו שוב עם מילות חיפוש אחרות.</div>';
+                return;
+            }
+
+            const html = data.map(school => createSchoolSection(school)).join('');
+            container.innerHTML = html;
+
+            // הוספת מאזיני אירועים לכפתורי אישור
+            attachConfirmEventListeners();
+        }
+
+        // פונקציה להוספת מאזיני אירועים לכפתורי אישור
+        function attachConfirmEventListeners() {
+            document.querySelectorAll('.confirm-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const teamName = this.getAttribute('data-team-name');
+                    const card = this.closest('.team-card');
+                    const schoolName = card.getAttribute('data-school');
+                    const city = card.getAttribute('data-city');
+                    const teamId = card.getAttribute('data-team-id');
+
+                    // מצא את הקבוצה המתאימה בנתונים המקוריים על פי שם הקבוצה ושם בית הספר
+                    let foundTeam = null;
+                    for (const school of teamsData) {
+                        if (school.schoolName === schoolName) {
+                            for (const team of school.teams) {
+                                if (team.teamName === teamName) {
+                                    foundTeam = team;
+                                    break;
+                                }
+                            }
+                            if (foundTeam) break;
+                        }
+                    }
+
+                    // אם מצאנו את הקבוצה, שמור אותה ב-localStorage ועבור לדף האישור
+                    if (foundTeam) {
+                        const teamData = {
+                            teamName: foundTeam.teamName,
+                            students: foundTeam.students,
+                            schoolName: foundTeam.schoolName,
+                            city: foundTeam.city,
+                            teacher: foundTeam.teacher
+                        };
+
+                        localStorage.setItem('confirmTeamData', JSON.stringify(teamData));
+                        window.location.href = 'confirm.html';
+                    } else {
+                        console.error('לא נמצאה קבוצה מתאימה');
+                    }
+                });
+            });
+        }
+
+        // פונקציית סינון לחיפוש
+        function filterTeams() {
+            const searchText = document.getElementById('searchBox').value.trim().toLowerCase();
+            const activeFilter = document.querySelector('.filter-tab.active').dataset.filter;
+
+            // סינון בתי ספר לפי טקסט החיפוש והסינון הפעיל
+            const filteredSchools = teamsData.map(school => {
+                // סינון קבוצות לפי טקסט החיפוש
+                const filteredTeams = school.teams.filter(team => {
+                    // בדיקה אם הטקסט מופיע בשם הקבוצה, בית הספר או עיר
+                    const nameMatch = team.teamName.toLowerCase().includes(searchText);
+                    const schoolMatch = school.schoolName.toLowerCase().includes(searchText);
+                    const cityMatch = team.city.toLowerCase().includes(searchText);
+                    const teacherMatch = team.teacher.toLowerCase().includes(searchText);
+
+                    // בדיקה אם הטקסט מופיע בשמות התלמידים
+                    const studentsMatch = team.students.some(student =>
+                        student.toLowerCase().includes(searchText)
+                    );
+
+                    // בדיקת סינון לפי כיתה
+                    let gradeMatch = true;
+                    if (activeFilter !== 'all') {
+                        const gradeLevel = activeFilter.split('-')[1]; // מקבל '4', '5', או '6'
+                        gradeMatch = team.students.some(student =>
+                            student.toLowerCase().includes(`כיתה ${gradeLevel}'`) ||
+                            student.toLowerCase().includes(`כיתה ${gradeLevel}`)
+                        );
+                    }
+
+                    return (nameMatch || schoolMatch || cityMatch || studentsMatch || teacherMatch) && gradeMatch;
+                });
+
+                // החזרת אובייקט בית ספר עם הקבוצות המסוננות
+                return {
+                    ...school,
+                    teams: filteredTeams
+                };
+            }).filter(school => school.teams.length > 0); // שמירת בתי ספר רק אם יש להם קבוצות שעונות על הסינון
+
+            renderTeams(filteredSchools);
+        }
+
+        // התאמת כפתור "חזרה למעלה"
+        function toggleBackToTopButton() {
+            const backToTopButton = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        }
+
+        // הגדרת מאזיני אירועים
+        document.addEventListener('DOMContentLoaded', function() {
+            // אתחול מצב האישור של הקבוצות
+            initializeTeamApprovalStatus();
+
+            // טעינת מצב האישור השמור (אם קיים)
+            loadApprovalStatus();
+
+            // הצגת נתונים ראשוניים
+            renderTeams(teamsData);
+
+            // הוספת מאזין לאירוע חיפוש
+            document.getElementById('searchBox').addEventListener('input', filterTeams);
+
+            // הוספת מאזין לאירוע לחיצה על כפתורי סינון
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // הסרת הסימון מכל הכפתורים
+                    document.querySelectorAll('.filter-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+
+                    // הוספת סימון לכפתור הנוכחי
+                    this.classList.add('active');
+
+                    // הפעלת פונקציית הסינון
+                    filterTeams();
+                });
+            });
+
+            // הוספת מאזין לאירוע גלילה
+            window.addEventListener('scroll', toggleBackToTopButton);
+
+            // הוספת מאזין לאירוע לחיצה על כפתור "חזרה למעלה"
+            document.getElementById('backToTop').addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
