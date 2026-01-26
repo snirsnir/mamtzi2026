@@ -523,9 +523,166 @@
         flex-direction: column;
         gap: 15px;
     }
-    
+
     .logo {
         height: 60px;
+    }
+}
+
+/* תרשים זרימה - תהליך ההאקתון */
+.flowchart-container {
+    margin: 40px 0;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.flowchart-title {
+    text-align: center;
+    font-size: 1.6em;
+    color: #1a365d;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.flow-box {
+    background: white;
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+    border-right: 5px solid;
+    width: 100%;
+}
+
+.flow-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.flow-box.step-1 { border-right-color: #10b981; }
+.flow-box.step-2 { border-right-color: #3b82f6; }
+.flow-box.step-3 { border-right-color: #8b5cf6; }
+.flow-box.step-4 { border-right-color: #f59e0b; }
+.flow-box.step-5 { border-right-color: #ec4899; }
+.flow-box.step-6 { border-right-color: #ef4444; }
+
+.flow-number {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2em;
+    color: white;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.step-1 .flow-number { background: linear-gradient(135deg, #10b981, #059669); }
+.step-2 .flow-number { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.step-3 .flow-number { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.step-4 .flow-number { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.step-5 .flow-number { background: linear-gradient(135deg, #ec4899, #db2777); }
+.step-6 .flow-number { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+.flow-icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.flow-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #1a365d;
+    margin-bottom: 8px;
+}
+
+.flow-desc {
+    font-size: 0.95em;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.flow-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50px;
+    position: relative;
+}
+
+.flow-arrow::before {
+    content: '';
+    width: 3px;
+    height: 35px;
+    background: linear-gradient(180deg, #94a3b8, #64748b);
+    border-radius: 2px;
+}
+
+.flow-arrow::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 12px solid #64748b;
+}
+
+@media (max-width: 768px) {
+    .flowchart-container {
+        padding: 20px 15px;
+        margin: 30px 0;
+    }
+
+    .flowchart-title {
+        font-size: 1.3em;
+    }
+
+    .flow-box {
+        padding: 15px 20px;
+    }
+
+    .flow-number {
+        width: 35px;
+        height: 35px;
+        font-size: 1em;
+        top: -12px;
+        right: -10px;
+    }
+
+    .flow-icon {
+        font-size: 1.6em;
+    }
+
+    .flow-title {
+        font-size: 1em;
+    }
+
+    .flow-desc {
+        font-size: 0.9em;
     }
 }
     </style>
@@ -890,9 +1047,8 @@
             
             <div class="description">
                 <p>ברוכים הבאים לעמוד הרשמי של האקתון הממציא.ה הצעיר.ה!</p>
-                <p>לקהל לקוחותינו החוזר, אנו שמחים לבשר ש...</p>
                 <p style="text-align: center; margin: 25px 0;">
-                    <span class="animated-text">השנה נשארים עם אותו קונספט! 🎉</span>
+                    <span class="animated-text">ההרשמה נפתחה לכולם! מהרו להירשם - נותרו מעט מקומות!</span>
                 </p>
                 <p>מעוניינים להצטרף לפעילות החוויתית, המעצימה והמלמדת של השנה?</p>
                 <p>הגעתם למקום הנכון!</p>
@@ -915,9 +1071,85 @@
             <h1>תזכורת על הקונספט החדש</h1>
 
             <div class="description">
-                <p>במקום פיתוח עצמאי בבית, ההאקתון החדשני שלנו יאפשר לכם לחוות תהליך מלא – משלב הרעיון, דרך זיהוי ופיתוח פתרון לבעיה, ועד לבניית תוכנית עסקית ושיווקית.</p>
+                <p>במקום פיתוח עצמאי בבית, ההאקתון החדשני שלנו יאפשר לכם לחוות תהליך מלא – משלב הרעיון, דרך זיהוי ופיתוח פתרון לבעיה ועד לבניית תוכנית עסקית ושיווקית.</p>
                 <p>הפעילות כוללת למידה מעשית, עבודת צוות והנחיה מקצועית שיסייעו לכם לחשוב כמו ממציאים אמיתיים ולהפוך רעיון למציאות.</p>
-                <p>מעוניינים לגלות עוד על התהליך החדש? לחצו על הבא!</p>
+            </div>
+
+            <!-- תרשים זרימה - תהליך ההאקתון -->
+            <div class="flowchart-container">
+                <h3 class="flowchart-title">תהליך ההאקתון - מהרשמה ועד לזכייה</h3>
+
+                <div class="flowchart">
+                    <!-- שלב 1: רישום -->
+                    <div class="flow-step">
+                        <div class="flow-box step-1">
+                            <span class="flow-number">1</span>
+                            <div class="flow-icon">📝</div>
+                            <div class="flow-title">רישום לתחרות</div>
+                            <div class="flow-desc">אתם כבר במקום הנכון! המשיכו בעמודים הבאים להשלמת ההרשמה</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow"></div>
+
+                    <!-- שלב 2: מפגשי זום -->
+                    <div class="flow-step">
+                        <div class="flow-box step-2">
+                            <span class="flow-number">2</span>
+                            <div class="flow-icon">💻</div>
+                            <div class="flow-title">3 מפגשי זום מעשירים</div>
+                            <div class="flow-desc">השתתפות במפגשי הכנה מקצועיים כהכנה ליום השיא</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow"></div>
+
+                    <!-- שלב 3: יום השיא -->
+                    <div class="flow-step">
+                        <div class="flow-box step-3">
+                            <span class="flow-number">3</span>
+                            <div class="flow-icon">🏟️</div>
+                            <div class="flow-title">יום השיא בטכנודע</div>
+                            <div class="flow-desc">הגעה לטכנודע והתחרות מול קבוצות אחרות</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow"></div>
+
+                    <!-- שלב 4: פתרון הבעיה -->
+                    <div class="flow-step">
+                        <div class="flow-box step-4">
+                            <span class="flow-number">4</span>
+                            <div class="flow-icon">🛠️</div>
+                            <div class="flow-title">פתרון אתגר אמיתי</div>
+                            <div class="flow-desc">בניית אב-טיפוס, כתיבת ספר פרויקט ויצירת חומרי שיווק</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow"></div>
+
+                    <!-- שלב 5: שיפוט -->
+                    <div class="flow-step">
+                        <div class="flow-box step-5">
+                            <span class="flow-number">5</span>
+                            <div class="flow-icon">⭐</div>
+                            <div class="flow-title">שיפוט מקצועי</div>
+                            <div class="flow-desc">הצגת הפרויקט בפני שופטים מומחים מתחומים שונים</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow"></div>
+
+                    <!-- שלב 6: טקס הזוכים -->
+                    <div class="flow-step">
+                        <div class="flow-box step-6">
+                            <span class="flow-number">6</span>
+                            <div class="flow-icon">🏆</div>
+                            <div class="flow-title">טקס הכרזת הזוכים</div>
+                            <div class="flow-desc">בערב יום השיא יתקיים טקס חגיגי בו יוכרזו הזוכים ויחולקו פרסים</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <button class="button" onclick="showSection('section2')">הבא</button>
@@ -976,7 +1208,7 @@
 
                 <div style="text-align: center; margin-top: 30px;">
                     <p>זוהי הזדמנות ייחודית לחוות תהליך המצאה אמיתי, מקצועי ומאתגר!</p>
-                    <p class="registration-note" style="color: #2563eb; font-weight: 600; margin-top: 15px;">ההרשמה פתוחה עד סוף ינואר 2026, כל הקודם זוכה!</p>
+                    <p class="registration-note" style="color: #2563eb; font-weight: 600; margin-top: 15px;">ההרשמה פתוחה עד רישום מלא או עד סוף פברואר 2026 (המוקדם מבניהם), כל הקודם זוכה!</p>
                     <button class="button" onclick="showRegistrationForm()">מעוניינים להירשם?</button>
                 </div>
             </div>
