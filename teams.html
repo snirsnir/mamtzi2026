@@ -325,10 +325,9 @@
             <p style="font-size: 1.2em; color: #2563eb; margin-top: 15px; font-weight: 500;">רשימת הקבוצות תעודכן בהמשך</p>
         </header>
 
-<div style="background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 10px; padding: 20px; margin-bottom: 30px; text-align: center;">
-    <h2 style="color: #b45309; margin-bottom: 10px; font-size: 1.4em;">דוגמא לכרטיסיית קבוצה</h2>
-    <p style="line-height: 1.6; font-size: 1.05em;">להלן דוגמא כיצד תיראה כרטיסיית הקבוצה שלכם ברשימה הסופית</p>
-</div>
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="חיפוש לפי שם קבוצה, תלמיד או בית ספר...">
+        </div>
         <div id="schoolsContainer">
             <!-- תוכן בתי הספר והקבוצות יוכנס כאן באמצעות JavaScript -->
         </div>
@@ -340,26 +339,79 @@
         </svg>
     </div>
 
-    <script>
-        // דוגמא לקבוצה - הרשימה המלאה תעודכן בהמשך
-        const teamsData = [
-    {
-        schoolName: "בית ספר <span class='blurred'>לדוגמה</span>",
-        teams: [
-            {
-                teamName: "ארבעת המופלאים",
-                students: [
-                    "ינאי <span class='blurred'>לביא בצרי</span>",
-                    "אריאל <span class='blurred'>חן</span>",
-                    "עמרי <span class='blurred'>פישר</span>",
-                    "איתי <span class='blurred'>שטיבי</span>"
-                ],
-                city: "חדרה",
-                teacher: "המורה <span class='blurred'>המנחה</span>"
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+            authDomain: "forever-4a04b.firebaseapp.com",
+            databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "forever-4a04b",
+            storageBucket: "forever-4a04b.firebasestorage.app",
+            messagingSenderId: "250928700713",
+            appId: "1:250928700713:web:25d6979fca637b90d42b38"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Convert Firebase data structure to teamsData format
+        function firebaseToTeamsData(snapshot) {
+            const data = snapshot.val();
+            if (!data) return [];
+
+            return Object.entries(data).map(([schoolName, schoolTeams]) => {
+                const teams = Object.entries(schoolTeams).map(([teamName, teamData]) => {
+                    const students = (teamData.students || []).map(s => {
+                        // Show first name clearly, blur last name, no grade
+                        const parts = s.name.trim().split(' ');
+                        const first = parts[0];
+                        const last  = parts.slice(1).join(' ');
+                        return last
+                            ? `${first} <span class="blurred">${last}</span>`
+                            : first;
+                    });
+                    return {
+                        teamName: teamName,
+                        students: students,
+                        teacher: teamData.teacher || '',
+                        city: ''
+                    };
+                });
+                return { schoolName, teams };
+            });
+        }
+
+        // Load data from Firebase on page load
+        async function loadFromFirebase() {
+            const container = document.getElementById('schoolsContainer');
+            container.innerHTML = '<div class="no-results">טוען נתונים...</div>';
+
+            try {
+                const snapshot = await get(ref(database, 'mamtzi2026'));
+                if (!snapshot.exists()) {
+                    container.innerHTML = '<div class="no-results">לא נמצאו נתונים. יש להעלות נתונים דרך deploy.html</div>';
+                    return;
+                }
+
+                window.teamsData = firebaseToTeamsData(snapshot);
+                initializeTeamApprovalStatus();
+                loadApprovalStatus();
+                renderTeams(window.teamsData);
+
+                // Update subtitle
+                const totalTeams = window.teamsData.reduce((s, sc) => s + sc.teams.length, 0);
+                document.querySelector('header p').textContent = `${window.teamsData.length} בתי ספר | ${totalTeams} קבוצות`;
+
+            } catch (error) {
+                container.innerHTML = `<div class="no-results">שגיאה בטעינה: ${error.message}</div>`;
+                console.error(error);
             }
-        ]
-    }
-];
+        }
+
+        // דוגמא לקבוצה - מוחלפת בנתוני Firebase
+        window.teamsData = [];
 
 
 
@@ -374,7 +426,7 @@ const preApprovedTeams = [
 
         // פונקציה לאתחול מצב האישור של הקבוצות
         function initializeTeamApprovalStatus() {
-            teamsData.forEach(school => {
+            window.teamsData.forEach(school => {
                 school.teams.forEach(team => {
                     const teamId = `${school.schoolName}_${team.teamName}`;
                     // בדיקה אם הקבוצה נמצאת ברשימת המאושרות מראש
@@ -476,7 +528,7 @@ const preApprovedTeams = [
 
                     // מצא את הקבוצה המתאימה בנתונים המקוריים על פי שם הקבוצה ושם בית הספר
                     let foundTeam = null;
-                    for (const school of teamsData) {
+                    for (const school of window.teamsData) {
                         if (school.schoolName === schoolName) {
                             for (const team of school.teams) {
                                 if (team.teamName === teamName) {
@@ -510,10 +562,11 @@ const preApprovedTeams = [
         // פונקציית סינון לחיפוש
         function filterTeams() {
             const searchText = document.getElementById('searchBox').value.trim().toLowerCase();
-            const activeFilter = document.querySelector('.filter-tab.active').dataset.filter;
+            const activeFilterEl = document.querySelector('.filter-tab.active');
+            const activeFilter = activeFilterEl ? activeFilterEl.dataset.filter : 'all';
 
             // סינון בתי ספר לפי טקסט החיפוש והסינון הפעיל
-            const filteredSchools = teamsData.map(school => {
+            const filteredSchools = window.teamsData.map(school => {
                 // סינון קבוצות לפי טקסט החיפוש
                 const filteredTeams = school.teams.filter(team => {
                     // בדיקה אם הטקסט מופיע בשם הקבוצה, בית הספר או עיר
@@ -562,14 +615,8 @@ const preApprovedTeams = [
 
         // הגדרת מאזיני אירועים
         document.addEventListener('DOMContentLoaded', function() {
-            // אתחול מצב האישור של הקבוצות
-            initializeTeamApprovalStatus();
-
-            // טעינת מצב האישור השמור (אם קיים)
-            loadApprovalStatus();
-
-            // הצגת נתונים ראשוניים
-            renderTeams(teamsData);
+            // טעינת נתונים מ-Firebase
+            loadFromFirebase();
 
             // הוספת מאזין לאירוע חיפוש
             document.getElementById('searchBox').addEventListener('input', filterTeams);

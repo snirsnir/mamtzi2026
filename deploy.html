@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>העלאת קבוצות לדאטהבייס</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .info-box {
+            background: #e8f4fd;
+            border: 1px solid #bee3f8;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-box p {
+            color: #2c5282;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #38a169;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .status.success {
+            display: block;
+            background: #c6f6d5;
+            border: 1px solid #9ae6b4;
+            color: #276749;
+        }
+
+        .status.error {
+            display: block;
+            background: #fed7d7;
+            border: 1px solid #feb2b2;
+            color: #c53030;
+        }
+
+        .status.loading {
+            display: block;
+            background: #fef3c7;
+            border: 1px solid #f6e05e;
+            color: #975a16;
+        }
+
+        .log-container {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #1a1a2e;
+            border-radius: 10px;
+            padding: 15px;
+            display: none;
+        }
+
+        .log-container.show {
+            display: block;
+        }
+
+        .log-entry {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #a0aec0;
+            padding: 3px 0;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .log-entry.success {
+            color: #68d391;
+        }
+
+        .log-entry.error {
+            color: #fc8181;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #718096;
+        }
+
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+
+        .preview-table th, .preview-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px;
+            text-align: right;
+        }
+
+        .preview-table th {
+            background: #edf2f7;
+            font-weight: 600;
+        }
+
+        .preview-table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .preview-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .preview-container.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>העלאת קבוצות לדאטהבייס</h1>
+
+        <div class="info-box">
+            <p>
+                <strong>מבנה הנתונים:</strong><br>
+                mamtzi2026 / [שם בית ספר] / [שם קבוצה] / תלמידים<br><br>
+                לחץ על "טען וצפה בנתונים" כדי לראות את הנתונים לפני ההעלאה,<br>
+                ואז לחץ על "העלה לדאטהבייס" כדי להעלות.
+            </p>
+        </div>
+
+        <button class="btn btn-secondary" onclick="loadAndPreview()">טען וצפה בנתונים</button>
+        <button class="btn btn-primary" id="deployBtn" onclick="deployToFirebase()" disabled>העלה לדאטהבייס</button>
+
+        <div class="stats" id="stats" style="display: none;">
+            <div class="stat-box">
+                <div class="stat-number" id="schoolCount">0</div>
+                <div class="stat-label">בתי ספר</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="teamCount">0</div>
+                <div class="stat-label">קבוצות</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="studentCount">0</div>
+                <div class="stat-label">תלמידות</div>
+            </div>
+        </div>
+
+        <div class="status" id="status"></div>
+
+        <div class="preview-container" id="previewContainer">
+            <h3 style="margin-bottom: 10px;">תצוגה מקדימה:</h3>
+            <table class="preview-table" id="previewTable">
+                <thead>
+                    <tr>
+                        <th>בית ספר</th>
+                        <th>שם קבוצה</th>
+                        <th>טלפון</th>
+                        <th>תלמידים</th>
+                    </tr>
+                </thead>
+                <tbody id="previewBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="log-container" id="logContainer">
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+            authDomain: "forever-4a04b.firebaseapp.com",
+            databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "forever-4a04b",
+            storageBucket: "forever-4a04b.firebasestorage.app",
+            messagingSenderId: "250928700713",
+            appId: "1:250928700713:web:25d6979fca637b90d42b38"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        let parsedData = null;
+
+        // Parse CSV with proper handling of quoted fields
+        function parseCSV(text) {
+            const lines = text.split('\n');
+            const result = [];
+
+            for (let i = 1; i < lines.length; i++) { // Skip header
+                const line = lines[i].trim();
+                if (!line) continue;
+
+                const fields = [];
+                let field = '';
+                let inQuotes = false;
+
+                for (let j = 0; j < line.length; j++) {
+                    const char = line[j];
+
+                    if (char === '"') {
+                        if (inQuotes && line[j + 1] === '"') {
+                            field += '"';
+                            j++;
+                        } else {
+                            inQuotes = !inQuotes;
+                        }
+                    } else if (char === ',' && !inQuotes) {
+                        fields.push(field.trim());
+                        field = '';
+                    } else {
+                        field += char;
+                    }
+                }
+                fields.push(field.trim());
+
+                if (fields.length >= 6) { // Need at least 6 columns (through קבוצה and בית ספר)
+                    result.push(fields);
+                }
+            }
+
+            return result;
+        }
+
+        // Clean string for Firebase path (remove invalid characters)
+        function cleanForFirebasePath(str) {
+            if (!str) return '';
+            return str.replace(/[.#$[\]\/]/g, '_').trim();
+        }
+
+        // Process CSV data into structured format
+        // students_list.csv columns: 0=מס"ד, 1=שם קבוצה, 2=שם פרטי, 3=שם משפחה, 4=טלפון, 5=שכבה, 6=בית ספר, 7=מורה
+        function processData(csvData) {
+            const schools = {};
+            let totalStudents = 0;
+
+            csvData.forEach(row => {
+                const teamName  = row[1] || '';  // שם קבוצה
+                const firstName = row[2] || '';  // שם פרטי
+                const lastName  = row[3] || '';  // שם משפחה
+                const phone     = row[4] || '';  // טלפון
+                const grade     = row[5] || '';  // שכבה
+                const school    = row[6] || '';  // בית ספר
+                const teacher   = row[7] || '';  // מורה (שם פרטי)
+
+                if (!school || !teamName || !firstName) return;
+
+                const cleanSchool = cleanForFirebasePath(school);
+                const cleanTeam   = cleanForFirebasePath(teamName);
+                const studentName = `${firstName} ${lastName}`.trim();
+
+                if (!schools[cleanSchool]) schools[cleanSchool] = {};
+
+                if (!schools[cleanSchool][cleanTeam]) {
+                    schools[cleanSchool][cleanTeam] = {
+                        students: [],
+                        phone: phone,
+                        teacher: teacher
+                    };
+                }
+
+                schools[cleanSchool][cleanTeam].students.push({
+                    name: studentName,
+                    grade: grade
+                });
+                totalStudents++;
+            });
+
+            return { teams: schools, totalStudents };
+        }
+
+        // Load and preview data
+        window.loadAndPreview = async function() {
+            const status = document.getElementById('status');
+            status.className = 'status loading';
+            status.textContent = 'טוען נתונים...';
+
+            try {
+                const response = await fetch('students_list.csv');
+                const text = await response.text();
+                const csvData = parseCSV(text);
+                const { teams, totalStudents } = processData(csvData);
+
+                parsedData = teams;
+
+                // Calculate stats
+                const schoolCount = Object.keys(teams).length;
+                let teamCount = 0;
+                Object.values(teams).forEach(school => {
+                    teamCount += Object.keys(school).length;
+                });
+
+                // Update stats display
+                document.getElementById('stats').style.display = 'grid';
+                document.getElementById('schoolCount').textContent = schoolCount;
+                document.getElementById('teamCount').textContent = teamCount;
+                document.getElementById('studentCount').textContent = totalStudents;
+
+                // Build preview table
+                const tbody = document.getElementById('previewBody');
+                tbody.innerHTML = '';
+
+                Object.entries(teams).forEach(([school, schoolTeams]) => {
+                    Object.entries(schoolTeams).forEach(([team, data]) => {
+                        const tr = document.createElement('tr');
+                        const studentsList = data.students.map(s => `${s.name} (${s.grade})`).join(', ');
+                        tr.innerHTML = `
+                            <td>${school}</td>
+                            <td>${team}</td>
+                            <td>${data.phone}</td>
+                            <td>${studentsList}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+
+                document.getElementById('previewContainer').classList.add('show');
+                document.getElementById('deployBtn').disabled = false;
+
+                status.className = 'status success';
+                status.textContent = `נטענו ${teamCount} קבוצות מ-${schoolCount} בתי ספר (${totalStudents} תלמידים)`;
+
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = 'שגיאה בטעינת הקובץ: ' + error.message;
+                console.error(error);
+            }
+        }
+
+        // Deploy to Firebase
+        window.deployToFirebase = async function() {
+            if (!parsedData) {
+                alert('יש לטעון את הנתונים קודם');
+                return;
+            }
+
+            const status = document.getElementById('status');
+            const logContainer = document.getElementById('logContainer');
+            const deployBtn = document.getElementById('deployBtn');
+
+            deployBtn.disabled = true;
+            logContainer.classList.add('show');
+            logContainer.innerHTML = '';
+
+            status.className = 'status loading';
+            status.textContent = 'מעלה נתונים לדאטהבייס...';
+
+            const addLog = (message, type = '') => {
+                const entry = document.createElement('div');
+                entry.className = 'log-entry ' + type;
+                entry.textContent = message;
+                logContainer.appendChild(entry);
+                logContainer.scrollTop = logContainer.scrollHeight;
+            };
+
+            try {
+                addLog('מתחיל העלאה...');
+
+                // Upload the entire teams structure at once
+                const teamsRef = ref(database, 'mamtzi2026');
+                await set(teamsRef, parsedData);
+
+                addLog('הועלו כל הנתונים בהצלחה!', 'success');
+
+                // Log summary
+                let totalTeams = 0;
+                Object.entries(parsedData).forEach(([school, teams]) => {
+                    const teamCount = Object.keys(teams).length;
+                    totalTeams += teamCount;
+                    addLog(`${school}: ${teamCount} קבוצות`, 'success');
+                });
+
+                status.className = 'status success';
+                status.textContent = `ההעלאה הושלמה בהצלחה! הועלו ${totalTeams} קבוצות ל-node mamtzi2026.`;
+
+            } catch (error) {
+                addLog('שגיאה: ' + error.message, 'error');
+                status.className = 'status error';
+                status.textContent = 'שגיאה בהעלאה: ' + error.message;
+                console.error(error);
+                deployBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
