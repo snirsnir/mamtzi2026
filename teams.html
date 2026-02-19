@@ -520,41 +520,7 @@ const preApprovedTeams = [
         function attachConfirmEventListeners() {
             document.querySelectorAll('.confirm-button').forEach(button => {
                 button.addEventListener('click', function() {
-                    const teamName = this.getAttribute('data-team-name');
-                    const card = this.closest('.team-card');
-                    const schoolName = card.getAttribute('data-school');
-                    const city = card.getAttribute('data-city');
-                    const teamId = card.getAttribute('data-team-id');
-
-                    // מצא את הקבוצה המתאימה בנתונים המקוריים על פי שם הקבוצה ושם בית הספר
-                    let foundTeam = null;
-                    for (const school of window.teamsData) {
-                        if (school.schoolName === schoolName) {
-                            for (const team of school.teams) {
-                                if (team.teamName === teamName) {
-                                    foundTeam = team;
-                                    break;
-                                }
-                            }
-                            if (foundTeam) break;
-                        }
-                    }
-
-                    // אם מצאנו את הקבוצה, שמור אותה ב-localStorage ועבור לדף האישור
-                    if (foundTeam) {
-                        const teamData = {
-                            teamName: foundTeam.teamName,
-                            students: foundTeam.students,
-                            schoolName: foundTeam.schoolName,
-                            city: foundTeam.city,
-                            teacher: foundTeam.teacher
-                        };
-
-                        localStorage.setItem('confirmTeamData', JSON.stringify(teamData));
-                        window.location.href = 'confirm.html';
-                    } else {
-                        console.error('לא נמצאה קבוצה מתאימה');
-                    }
+                    alert('🔒 אופציה זו תיפתח כשבוע לפני יום השיא.\n\nנחזור אליכם עם הפרטים בהמשך!');
                 });
             });
         }
