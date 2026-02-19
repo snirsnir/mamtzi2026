@@ -529,6 +529,103 @@
     }
 }
 
+/* כרטיסי מפגשי זום */
+.zoom-meetings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.zoom-meeting-card {
+    background: linear-gradient(145deg, #fff 0%, #f8fafc 100%);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
+    border: 2px solid #e0e7ff;
+    transition: all 0.3s ease;
+}
+
+.zoom-meeting-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+}
+
+.zoom-meeting-card h3 {
+    color: #2563eb;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    text-align: center;
+    font-family: 'Fredoka', sans-serif;
+}
+
+.zoom-date-time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-radius: 12px;
+}
+
+.zoom-date-time span {
+    font-size: 1.05em;
+    color: #1e40af;
+    font-weight: 600;
+}
+
+.zoom-content-title {
+    color: #f59e0b;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 15px 0 12px 0;
+    text-align: center;
+}
+
+.zoom-content-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.zoom-content-list li {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border-right: 4px solid #2563eb;
+    font-size: 1em;
+    line-height: 1.6;
+    color: #1e293b;
+    font-family: 'Fredoka', sans-serif;
+}
+
+.zoom-join-btn {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: linear-gradient(45deg, #dc2626, #b91c1c);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.15em;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35);
+    transition: all 0.3s ease;
+}
+
+.zoom-join-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+    background: linear-gradient(45deg, #b91c1c, #991b1b);
+}
+
 /* תרשים זרימה - תהליך ההאקתון */
 .flowchart-container {
     margin: 40px 0;
@@ -693,6 +790,7 @@
 <div class="container">
 <div class="logos-container">
     <img src="https://media.getmood.io/warehouse/dynamic/217495.png" alt="הטכנודע" class="logo logo-left">
+    <img src="lockheed.png" alt="Lockheed Martin" class="logo logo-right">
 </div>
 
     <div class="main-content">
@@ -748,34 +846,62 @@
                     </div>
                 </div>
 
-                <div class="meetings-container">
-                    <div class="meeting-card">
-                        <h4>מפגש זום 1</h4>
-                        <div class="meeting-details">
-                            <p style="font-weight: 600; color: #2563eb;">התאריך יפורסם בהמשך</p>
+                <div class="zoom-meetings-container">
+                    <!-- מפגש זום 1 -->
+                    <div class="zoom-meeting-card">
+                        <h3>מפגש זום ראשון</h3>
+                        <div class="zoom-date-time">
+                            <span>📅 18.03.2026 (יום רביעי)</span>
+                            <span>⏰ 16:30 - 17:15</span>
                         </div>
+                        <div class="zoom-content-title">תוכן המפגש:</div>
+                        <ul class="zoom-content-list">
+                            <li>הסבר ראשוני על הפורמט והמבנה</li>
+                            <li>חשיפת האתגר השנתי</li>
+                            <li>הכרת כלי בינה מלאכותית לצורך שיווק ההמצאה</li>
+                        </ul>
+                        <button class="zoom-join-btn" onclick="joinZoom('2026-03-18T16:30:00')">💻 לחצו להצטרפות לזום</button>
                     </div>
 
-                    <div class="meeting-card">
-                        <h4>מפגש זום 2</h4>
-                        <div class="meeting-details">
-                            <p style="font-weight: 600; color: #2563eb;">התאריך יפורסם בהמשך</p>
+                    <!-- מפגש זום 2 -->
+                    <div class="zoom-meeting-card">
+                        <h3>מפגש זום שני</h3>
+                        <div class="zoom-date-time">
+                            <span>📅 29.04.2026 (יום רביעי)</span>
+                            <span>⏰ 16:30 - 17:15</span>
                         </div>
+                        <div class="zoom-content-title">תוכן המפגש:</div>
+                        <ul class="zoom-content-list">
+                            <li>הכרת המצאפדיה - ספר פרויקט</li>
+                            <li>טיפים ודגשים לסדנת המייקרס</li>
+                        </ul>
+                        <button class="zoom-join-btn" onclick="joinZoom('2026-04-29T16:30:00')">💻 לחצו להצטרפות לזום</button>
                     </div>
 
-                    <div class="meeting-card">
-                        <h4>מפגש זום 3</h4>
-                        <div class="meeting-details">
-                            <p style="font-weight: 600; color: #2563eb;">התאריך יפורסם בהמשך</p>
+                    <!-- מפגש זום 3 -->
+                    <div class="zoom-meeting-card">
+                        <h3>מפגש זום שלישי</h3>
+                        <div class="zoom-date-time">
+                            <span>📅 24.05.2026 (יום ראשון)</span>
+                            <span>⏰ 16:30 - 17:15</span>
                         </div>
+                        <div class="zoom-content-title">תוכן המפגש:</div>
+                        <ul class="zoom-content-list">
+                            <li>אסטרטגיות הצגה אפקטיביות</li>
+                            <li>הכנה לפאנל השופטים</li>
+                            <li>דגשים וטיפים לקראת יום השיא</li>
+                            <li>מענה על שאלות</li>
+                        </ul>
+                        <button class="zoom-join-btn" onclick="joinZoom('2026-05-24T16:30:00')">💻 לחצו להצטרפות לזום</button>
                     </div>
+                </div>
 
-                    <div class="meeting-card special" style="background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #6366f1; margin-top: 30px;">
-                        <h4 style="font-size: 1.8em; color: #4338ca; margin-bottom: 20px;">🏆 אירוע האקתון בטכנודע חדרה 🏆</h4>
-                        <div class="meeting-details" style="font-size: 1.3em;">
-                            <p style="font-weight: 700; color: #4338ca; font-size: 1.2em; margin-bottom: 10px;">יום חמישי ה-04/06/2026</p>
-                            <p style="font-weight: 600; color: #4338ca;">בין השעות 09:00 - 21:00</p>
-                        </div>
+                <!-- אירוע יום השיא -->
+                <div class="meeting-card special" style="background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #6366f1; margin-top: 30px;">
+                    <h4 style="font-size: 1.8em; color: #4338ca; margin-bottom: 20px;">🏆 אירוע האקתון בטכנודע חדרה 🏆</h4>
+                    <div class="meeting-details" style="font-size: 1.3em;">
+                        <p style="font-weight: 700; color: #4338ca; font-size: 1.2em; margin-bottom: 10px;">יום חמישי ה-04/06/2026</p>
+                        <p style="font-weight: 600; color: #4338ca;">בין השעות 09:00 - 21:00</p>
                     </div>
                 </div>
             </div>
@@ -1526,8 +1652,25 @@ teamsListBtn.onclick = function() {
     showSection('section1a');
 });
 function printSchedule() {
-    // פשוט פותח את תיבת הדו-שיח של ההדפסה המובנית של הדפדפן
     window.print();
+}
+
+function joinZoom(meetingDateStr) {
+    const now = new Date();
+    const meetingDate = new Date(meetingDateStr);
+    const diffMs = meetingDate - now;
+    const diffHours = diffMs / (1000 * 60 * 60);
+
+    if (diffHours > 24) {
+        const date = meetingDate.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        alert('🔒 הקישור לזום יפתח 24 שעות לפני המפגש.\n\nהמפגש יתקיים בתאריך ' + date + ' בשעה 16:30.\n\nחזרו מחר לפני המפגש!');
+    } else if (diffHours < -2) {
+        alert('⏰ המפגש הסתיים.\n\nנשלחה הקלטה למייל הרשום. תוכלו גם לפנות אלינו לקבלת הקלטה.');
+    } else {
+        // בטווח של 24 שעות לפני המפגש - הקישור פעיל
+        // כאן יש להחליף בקישור הזום האמיתי
+        alert('✅ הקישור לזום פעיל!\n\nהקישור יעודכן כאן לפני המפגש.');
+    }
 }
     </script>
 </body>
